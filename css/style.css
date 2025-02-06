@@ -1,0 +1,103 @@
+/* style.css - Mid-Century Modern Aesthetic */
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;600&display=swap");
+
+body {
+  background-color: #e5ded8;
+  color: #2a2a2a;
+  font-family: "Work Sans", sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+button {
+  background-color: #556b2f;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 20px;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #3e4f2f;
+}
+
+.hidden {
+  display: none;
+}
+
+#elevator img {
+  width: 60%;
+  max-width: 400px;
+  animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#hallway {
+  background: #c5b9ac;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#menuToggle {
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  background: white;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 200px;
+}
+
+nav ul li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+nav ul li:last-child {
+  border-bottom: none;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #2a2a2a;
+  font-weight: 600;
+}
+
+nav ul li a:hover {
+  color: #556b2f;
+}
