@@ -5,6 +5,15 @@ document.addEventListener("DOMContentLoaded", function () {
   const menuToggle = document.getElementById("menuToggle");
   const menu = document.getElementById("menu");
 
+  let audioContext = null;
+
+  function initAudioContext() {
+    if (!audioContext) {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    return audioContext;
+  }
+
   // Hamburger menu functionality
   menuToggle.addEventListener("click", () => {
     menuToggle.classList.toggle("active");
@@ -19,55 +28,63 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Elevator sequence
-  if (startButton) {
-    startButton.addEventListener("click", async function () {
-      landing.classList.add("hidden");
-      elevator.classList.remove("hidden");
+  function playTone(frequency, duration = 600) {
+    // Extended duration to 600ms
+    const ctx = initAudioContext();
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
 
-      // First tone - Low G (196 Hz)
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          playTone(195); // G3
-          resolve();
-        }, 500);
-      });
+    // Using sine wave for clean tone
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
 
-      // Second tone - High C# (554.37 Hz)
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          playTone(277); // C#5
-          resolve();
-        }, 1000);
-      });
+    // Configure gain (volume envelope)
+    gainNode.gain.setValueAtTime(0, ctx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.7, ctx.currentTime + 0.01);
+    gainNode.gain.linearRampToValueAtTime(
+      0.7,
+      ctx.currentTime + duration / 1000 - 0.05
+    );
+    gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + duration / 1000);
 
-      // Navigate to work page
-      setTimeout(() => {
-        window.location.href = "pages/work.html";
-      }, 2000);
+    // Connect nodes
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+
+    // Play tone
+    oscillator.start(ctx.currentTime);
+    oscillator.stop(ctx.currentTime + duration / 1000);
+
+    return new Promise((resolve) => {
+      setTimeout(resolve, duration);
     });
   }
 
-  // Function to play a tone
-  function playTone(frequency) {
-    const audioContext = new (window.AudioContext ||
-      window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
+  // Elevator sequence
+  if (startButton) {
+    startButton.addEventListener("click", async function () {
+      initAudioContext();
 
-    oscillator.type = "sine";
-    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+      landing.classList.add("hidden");
+      elevator.classList.remove("hidden");
 
-    gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(
-      0.01,
-      audioContext.currentTime + 0.5
-    );
+      try {
+        // First tone - G5 (784 Hz)
+        await playTone(784);
 
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+        // Wait 200ms between tones
+        await new Promise((resolve) => setTimeout(resolve, 200));
 
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + 0.5);
+        // Second tone - C#5 (554.37 Hz)
+        await playTone(554.37);
+
+        // Wait before navigation
+        setTimeout(() => {
+          window.location.href = "pages/work.html";
+        }, 1800); // Extended wait time to account for longer tones
+      } catch (error) {
+        console.error("Error playing tones:", error);
+      }
+    });
   }
 });
