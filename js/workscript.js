@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Create main grid
   for (let i = 0; i < 300; i++) {
-    // 10x30 grid
     const gridItem = document.createElement("div");
     gridItem.className = "grid-item";
     gridItem.textContent = Math.floor(Math.random() * 10);
@@ -49,6 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
     progressBar.style.width = `${progress}%`;
 
     if (completedCount === 9) {
+      mainGrid.classList.add("hidden");
+      document.querySelector(".progress-container").classList.add("hidden");
       completionMessage.classList.remove("hidden");
     }
   }
@@ -56,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Waffle party handler
   waffleBtn.addEventListener("click", () => {
     waffleImg.classList.remove("hidden");
+    completionMessage.classList.add("hidden");
     triggerConfetti();
   });
 
