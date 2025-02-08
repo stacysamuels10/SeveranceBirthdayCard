@@ -8,18 +8,13 @@
     <script defer src="js/script.js"></script>
   </head>
   <body>
-    <div id="landing">
-      <h1>Welcome, Employee.</h1>
-      <button id="startWork">Start Work</button>
-    </div>
-
-    <div id="elevator" class="hidden">
-      <img src="images/elevator.png" alt="Elevator Doors" />
-    </div>
-
-    <div id="hallway" class="hidden">
-      <button id="menuToggle">☰ Hallway</button>
-      <nav id="menu" class="hidden">
+    <header class="header">
+      <button id="menuToggle" class="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="menu" class="nav hidden">
         <ul>
           <li><a href="pages/work.html">Work</a></li>
           <li><a href="pages/wellness.html">Wellness</a></li>
@@ -27,6 +22,17 @@
           <li><a href="pages/principles.html">Kier Principles</a></li>
         </ul>
       </nav>
-    </div>
+    </header>
+
+    <main>
+      <div id="landing" class="landing">
+        <h1>Welcome, Employee.</h1>
+        <button id="startWork" class="primary-button">Start Work</button>
+      </div>
+
+      <div id="elevator" class="elevator hidden">
+        <img src="assets/Elevator.png" alt="Elevator Doors" />
+      </div>
+    </main>
   </body>
 </html>
