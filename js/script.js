@@ -14,8 +14,9 @@ document.addEventListener("DOMContentLoaded", function () {
     return audioContext;
   }
 
-  // Hamburger menu functionality
-  menuToggle.addEventListener("click", () => {
+  // Update menu toggle functionality
+  menuToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
     menuToggle.classList.toggle("active");
     menu.classList.toggle("active");
   });
@@ -26,6 +27,12 @@ document.addEventListener("DOMContentLoaded", function () {
       menu.classList.remove("active");
       menuToggle.classList.remove("active");
     }
+  });
+
+  // Close menu when resizing window
+  window.addEventListener("resize", () => {
+    menu.classList.remove("active");
+    menuToggle.classList.remove("active");
   });
 
   function playTone(frequency, duration = 600) {

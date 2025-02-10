@@ -1,3 +1,84 @@
+/* Header and Navigation */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  z-index: 1000; /* Ensure it's above other elements */
+}
+
+.hamburger {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001; /* Ensure it's above the nav */
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #0f0; /* Green color to match the theme */
+  margin: 6px 0;
+  transition: 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+  background-color: #0f0; /* Ensure active state is green */
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+  background-color: #0f0; /* Ensure active state is green */
+}
+
+/* Nav menu styling */
+.nav {
+  position: fixed;
+  top: 4rem;
+  left: 1rem;
+  background-color: #111; /* Dark background to match the theme */
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  z-index: 1000; /* Ensure it's above other elements */
+}
+
+.nav.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav ul {
+  list-style: none;
+}
+
+.nav ul li {
+  margin: 1rem 0;
+}
+
+.nav ul li a {
+  color: #0f0; /* Green color to match the theme */
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Ensure the rest of your CSS remains unchanged */
 body {
   background-color: #000;
   color: #0f0;
@@ -101,5 +182,43 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: 80%;
+}
+/* Add to workstyle.css */
+#round-display {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  color: #0f0;
   z-index: 1001;
+}
+
+.grid-container {
+  touch-action: none; /* Prevent default touch behaviors */
+}
+
+.vibrating {
+  position: relative;
+}
+
+.vibrating::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #0f0;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }

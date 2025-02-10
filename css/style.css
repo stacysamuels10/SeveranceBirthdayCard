@@ -66,6 +66,7 @@ body {
   transform: rotate(-45deg) translate(7px, -7px);
 }
 
+/* Remove transform from .nav and use opacity instead */
 .nav {
   position: fixed;
   top: 4rem;
@@ -74,12 +75,14 @@ body {
   padding: 1rem;
   border-radius: 4px;
   box-shadow: var(--shadow);
-  transform: translateX(-120%);
-  transition: transform 0.3s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
 .nav.active {
-  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
 }
 
 .nav ul {

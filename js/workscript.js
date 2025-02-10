@@ -1,38 +1,87 @@
+// Update workscript.js
 document.addEventListener("DOMContentLoaded", () => {
   const mainGrid = document.getElementById("main-grid");
   const progressBar = document.getElementById("progress-bar");
   const completionMessage = document.getElementById("completion-message");
   const waffleBtn = document.getElementById("waffle-btn");
   const waffleImg = document.getElementById("waffle-img");
+  const roundDisplay = document.getElementById("round-display");
+
   let completedCount = 0;
+  let currentRound = 1;
+  let isDragging = false;
+  let lastProcessed = null;
 
-  // Create main grid
-  for (let i = 0; i < 300; i++) {
-    const gridItem = document.createElement("div");
-    gridItem.className = "grid-item";
-    gridItem.textContent = Math.floor(Math.random() * 10);
+  // Touch handling
+  mainGrid.addEventListener("touchstart", handleTouchStart);
+  mainGrid.addEventListener("touchmove", handleTouchMove);
+  mainGrid.addEventListener("touchend", handleTouchEnd);
 
-    // Create 3x3 vibrating grid in the center
-    const row = Math.floor(i / 30);
-    const col = i % 30;
-    if (row >= 4 && row <= 6 && col >= 14 && col <= 16) {
-      gridItem.classList.add("vibrating");
-      gridItem.dataset.interactive = "true";
-    }
-
-    mainGrid.appendChild(gridItem);
+  function handleTouchStart(e) {
+    isDragging = true;
+    processTouch(e.touches[0]);
   }
 
-  // Add click handlers to vibrating numbers
-  document.querySelectorAll("[data-interactive]").forEach((item) => {
-    item.addEventListener("click", () => {
-      if (!item.classList.contains("disappeared")) {
-        item.classList.add("disappeared");
-        animateDisappearance(item);
-        updateProgress();
+  function handleTouchMove(e) {
+    if (isDragging) {
+      processTouch(e.touches[0]);
+    }
+  }
+
+  function handleTouchEnd() {
+    isDragging = false;
+    lastProcessed = null;
+  }
+
+  function processTouch(touch) {
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+
+    if (
+      element &&
+      element.dataset.interactive &&
+      !element.classList.contains("disappeared") &&
+      element !== lastProcessed
+    ) {
+      lastProcessed = element;
+      handleNumberClick(element);
+    }
+  }
+
+  // Initial grid setup
+  function createGrid() {
+    mainGrid.innerHTML = "";
+    for (let i = 0; i < 300; i++) {
+      const gridItem = document.createElement("div");
+      gridItem.className = "grid-item";
+      gridItem.textContent = Math.floor(Math.random() * 10);
+
+      // First round position
+      const row = Math.floor(i / 30);
+      const col = i % 30;
+      if (
+        currentRound === 1 &&
+        row >= 4 &&
+        row <= 6 &&
+        col >= 14 &&
+        col <= 16
+      ) {
+        activateNumber(gridItem);
       }
-    });
-  });
+
+      mainGrid.appendChild(gridItem);
+    }
+  }
+
+  function activateNumber(element) {
+    element.classList.add("vibrating");
+    element.dataset.interactive = true;
+  }
+
+  function handleNumberClick(element) {
+    element.classList.add("disappeared");
+    animateDisappearance(element);
+    updateProgress();
+  }
 
   function animateDisappearance(element) {
     element.style.transition = "transform 1s, opacity 1s";
@@ -44,14 +93,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateProgress() {
     completedCount++;
-    const progress = (completedCount / 9) * 100;
+    const totalNumbers = 18; // 9 per round × 2 rounds
+    const progress = (completedCount / totalNumbers) * 100;
     progressBar.style.width = `${progress}%`;
 
     if (completedCount === 9) {
-      mainGrid.classList.add("hidden");
-      document.querySelector(".progress-container").classList.add("hidden");
-      completionMessage.classList.remove("hidden");
+      currentRound = 2;
+      roundDisplay.textContent = "Round 2/2";
+      createSecondRound();
+    } else if (completedCount === 18) {
+      showCompletion();
     }
+  }
+
+  function createSecondRound() {
+    const gridItems = document.querySelectorAll(".grid-item");
+    gridItems.forEach((item, index) => {
+      const row = Math.floor(index / 30);
+      const col = index % 30;
+      // Second round position (different location)
+      if (row >= 8 && row <= 10 && col >= 14 && col <= 16) {
+        if (!item.classList.contains("disappeared")) {
+          activateNumber(item);
+        }
+      }
+    });
+  }
+
+  function showCompletion() {
+    mainGrid.classList.add("hidden");
+    document.querySelector(".progress-container").classList.add("hidden");
+    completionMessage.classList.remove("hidden");
   }
 
   // Waffle party handler
@@ -61,24 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
     triggerConfetti();
   });
 
-  function triggerConfetti() {
-    const count = 200;
-    const defaults = {
-      origin: { y: 0.7 },
-    };
-
-    function fire(particleRatio, opts) {
-      confetti(
-        Object.assign({}, defaults, opts, {
-          particleCount: Math.floor(count * particleRatio),
-        })
-      );
-    }
-
-    fire(0.25, { spread: 26, startVelocity: 55 });
-    fire(0.2, { spread: 60 });
-    fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
-    fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
-    fire(0.1, { spread: 120, startVelocity: 45 });
-  }
+  // Initialize first round
+  createGrid();
 });
