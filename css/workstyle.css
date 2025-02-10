@@ -94,31 +94,6 @@ body {
   height: 100vh;
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(30, 1fr);
-  gap: 1px;
-  height: calc(100vh - 40px); /* Account for progress bar */
-  overflow: auto;
-}
-
-.grid-item {
-  font-size: 20px;
-  font-weight: 400;
-  text-align: center;
-  padding: 2px;
-  color: #0f0;
-  user-select: none;
-}
-
-.vibrating {
-  font-size: 20px;
-  font-weight: bolder;
-  color: #0f0;
-  animation: vibrate 0.1s infinite;
-  cursor: pointer;
-}
-
 @keyframes vibrate {
   0% {
     transform: translate(0, 0);
@@ -194,21 +169,32 @@ body {
 
 .grid-container {
   touch-action: none; /* Prevent default touch behaviors */
+  display: grid;
+  grid-template-columns: repeat(30, 1fr);
+  gap: 1px;
+  height: calc(100vh - 100px); /* Adjusted for better fit */
+  width: 100vw;
+  overflow: auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Add this for better mobile scaling */
+.grid-item {
+  font-size: 16px; /* Slightly smaller for mobile */
+  text-align: center;
+  padding: 2px;
+  color: #0f0;
+  user-select: none;
 }
 
 .vibrating {
   position: relative;
-}
-
-.vibrating::after {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border: 2px solid #0f0;
-  animation: pulse 2s infinite;
+  font-size: 20px;
+  font-weight: bolder;
+  color: #0f0;
+  animation: vibrate 0.1s infinite;
+  cursor: pointer;
 }
 
 @keyframes pulse {

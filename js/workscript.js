@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Initial grid setup
+  // Create initial grid
   function createGrid() {
     mainGrid.innerHTML = "";
     for (let i = 0; i < 300; i++) {
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gridItem.className = "grid-item";
       gridItem.textContent = Math.floor(Math.random() * 10);
 
-      // First round position
+      // First round position (center)
       const row = Math.floor(i / 30);
       const col = i % 30;
       if (
@@ -64,6 +64,22 @@ document.addEventListener("DOMContentLoaded", () => {
         row <= 6 &&
         col >= 14 &&
         col <= 16
+      ) {
+        if (completedCount < 9) {
+          activateNumber(gridItem);
+        } else {
+          // After first round, show non-vibrating numbers
+          gridItem.style.fontWeight = "normal";
+        }
+      }
+
+      // Second round position (slightly up and left)
+      if (
+        currentRound === 2 &&
+        row >= 3 &&
+        row <= 5 &&
+        col >= 12 &&
+        col <= 14
       ) {
         activateNumber(gridItem);
       }
@@ -100,24 +116,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (completedCount === 9) {
       currentRound = 2;
       roundDisplay.textContent = "Round 2/2";
-      createSecondRound();
+      createGrid(); // Refresh grid for second round
     } else if (completedCount === 18) {
       showCompletion();
     }
-  }
-
-  function createSecondRound() {
-    const gridItems = document.querySelectorAll(".grid-item");
-    gridItems.forEach((item, index) => {
-      const row = Math.floor(index / 30);
-      const col = index % 30;
-      // Second round position (different location)
-      if (row >= 8 && row <= 10 && col >= 14 && col <= 16) {
-        if (!item.classList.contains("disappeared")) {
-          activateNumber(item);
-        }
-      }
-    });
   }
 
   function showCompletion() {
