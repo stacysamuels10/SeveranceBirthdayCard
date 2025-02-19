@@ -1,0 +1,129 @@
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Change to allow top alignment for header */
+  height: 100vh;
+  padding-top: 4rem; /* Add space for fixed header */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+.container {
+  text-align: center;
+  max-width: 800px;
+  margin: 20px;
+  background-color: #fff;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Ensure scrolling inside the container */
+  padding-top: 20px; /* Add padding to prevent cutting off the first principle */
+}
+
+header h1 {
+  font-size: 36px;
+  color: #3e3e3e;
+  margin-bottom: 10px;
+}
+
+header p {
+  font-size: 16px;
+  color: #777;
+  margin-bottom: 30px;
+}
+
+#principles {
+  text-align: left;
+}
+
+.principle {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.principle:hover {
+  background-color: #e9e9e9;
+}
+
+/* Hamburger and Menu Styles */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  z-index: 1000;
+  background-color: white;
+}
+
+.hamburger {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #1a1a1a;
+  margin: 6px 0;
+  transition: 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.nav {
+  position: fixed;
+  top: 4rem; /* Ensure the nav doesn't overlap the header */
+  left: 1rem;
+  background-color: #e0e0e0;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.nav.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav ul {
+  list-style: none;
+}
+
+.nav ul li {
+  margin: 1rem 0;
+}
+
+.nav ul li a {
+  color: #1a1a1a;
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
