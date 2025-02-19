@@ -52,6 +52,12 @@ document.addEventListener("DOMContentLoaded", () => {
     textContent.textContent = repeatedStatements.join("\n\n");
   }
 
+  // Function to start the scrolling animation
+  function startScrolling() {
+    textContent.style.transition = "transform 550s linear"; // Adjust scroll speed
+    textContent.style.transform = "translateY(-100%)";
+  }
+
   // Show initial message for 5 seconds, then start the scrolling text
   setTimeout(() => {
     initialMessage.classList.add("fade-out");
@@ -59,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
       initialMessage.classList.add("hidden");
       scrollingText.classList.remove("hidden");
       createScrollingText();
-    }, 2000); // Wait for fade out to complete
-  }, 5000); // Show initial message for 5 seconds
+      setTimeout(startScrolling, 1000); // Wait 2 seconds before scrolling starts
+    }, 1000); // Wait for fade out to complete
+  }, 3000); // Show initial message for 5 seconds
 });
