@@ -1,4 +1,3 @@
-// Update workscript.js
 document.addEventListener("DOMContentLoaded", () => {
   const mainGrid = document.getElementById("main-grid");
   const progressBar = document.getElementById("progress-bar");
@@ -6,6 +5,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const waffleBtn = document.getElementById("waffle-btn");
   const waffleImg = document.getElementById("waffle-img");
   const roundDisplay = document.getElementById("round-display");
+
+  // Add hamburger menu functionality
+  const menuToggle = document.getElementById("menuToggle");
+  const menu = document.getElementById("menu");
+
+  menuToggle.addEventListener("click", () => {
+    menuToggle.classList.toggle("active");
+    menu.classList.toggle("active");
+  });
 
   let completedCount = 0;
   let currentRound = 1;
@@ -47,7 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Create initial grid
   function createGrid() {
     mainGrid.innerHTML = "";
     for (let i = 0; i < 300; i++) {
@@ -55,7 +62,6 @@ document.addEventListener("DOMContentLoaded", () => {
       gridItem.className = "grid-item";
       gridItem.textContent = Math.floor(Math.random() * 10);
 
-      // First round position (center)
       const row = Math.floor(i / 30);
       const col = i % 30;
       if (
@@ -68,12 +74,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (completedCount < 9) {
           activateNumber(gridItem);
         } else {
-          // After first round, show non-vibrating numbers
           gridItem.style.fontWeight = "normal";
         }
       }
 
-      // Second round position (slightly up and left)
       if (
         currentRound === 2 &&
         row >= 3 &&
@@ -109,14 +113,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateProgress() {
     completedCount++;
-    const totalNumbers = 18; // 9 per round × 2 rounds
+    const totalNumbers = 18;
     const progress = (completedCount / totalNumbers) * 100;
     progressBar.style.width = `${progress}%`;
 
     if (completedCount === 9) {
       currentRound = 2;
       roundDisplay.textContent = "Round 2/2";
-      createGrid(); // Refresh grid for second round
+      createGrid();
     } else if (completedCount === 18) {
       showCompletion();
     }
@@ -128,13 +132,55 @@ document.addEventListener("DOMContentLoaded", () => {
     completionMessage.classList.remove("hidden");
   }
 
-  // Waffle party handler
+  // Updated confetti function
+  function triggerConfetti() {
+    const duration = 3000;
+    const animationEnd = Date.now() + duration;
+    const defaults = {
+      startVelocity: 30,
+      spread: 360,
+      ticks: 60,
+      zIndex: 1000,
+    };
+
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    const interval = setInterval(function () {
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      const particleCount = 50 * (timeLeft / duration);
+
+      // Create confetti from multiple origins
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+      });
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+      });
+    }, 250);
+  }
+
+  // Updated waffle party handler
   waffleBtn.addEventListener("click", () => {
-    waffleImg.classList.remove("hidden");
     completionMessage.classList.add("hidden");
-    triggerConfetti();
+    mainGrid.classList.add("hidden"); // Ensure grid is hidden
+    document.querySelector(".progress-container").classList.add("hidden");
+    waffleImg.classList.remove("hidden");
+    waffleImg.classList.add("fullscreen-waffle");
+
+    // Delay confetti slightly to ensure everything else is ready
+    setTimeout(triggerConfetti, 100);
   });
 
-  // Initialize first round
   createGrid();
 });

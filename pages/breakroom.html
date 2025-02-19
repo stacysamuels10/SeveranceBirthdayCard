@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Break Room</title>
+    <link rel="stylesheet" href="https://use.typekit.net/wlr4fvr.css" />
+    <!-- Input Sans font -->
+    <link rel="stylesheet" href="../css/breakstyle.css" />
+  </head>
+  <body>
+    <header class="header">
+      <button id="menuToggle" class="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="menu" class="nav">
+        <ul>
+          <li><a href="../pages/work.html">Work</a></li>
+          <li><a href="../pages/wellness.html">Wellness</a></li>
+          <li><a href="../pages/breakroom.html">Breakroom</a></li>
+          <li><a href="../pages/principles.html">Kier Principles</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="container">
+      <div id="initial-message" class="message">
+        The board requires you read this statement until you believe it.<br />
+        As many times as necessary.
+      </div>
+      <div id="scrolling-text" class="hidden">
+        <div class="text-content"></div>
+      </div>
+    </div>
+    <script src="../js/breakscript.js"></script>
+  </body>
+</html>

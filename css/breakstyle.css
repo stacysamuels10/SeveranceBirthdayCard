@@ -1,0 +1,158 @@
+@import url("https://use.typekit.net/wlr4fvr.css");
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.hamburger {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #e0e0e0;
+  margin: 6px 0;
+  transition: 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Remove transform from .nav and use opacity instead */
+.nav {
+  position: fixed;
+  top: 4rem;
+  left: 1rem;
+  background-color: #e0e0e0;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.nav.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav ul {
+  list-style: none;
+}
+
+.nav ul li {
+  margin: 1rem 0;
+}
+
+.nav ul li a {
+  color: #1a1a1a;
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1a1a1a; /* Deep grey background */
+  color: #e0e0e0; /* Light grey text */
+  font-family: "input-sans", monospace;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.message {
+  font-size: 2rem;
+  text-align: center;
+  line-height: 1.5;
+  opacity: 1;
+  transition: opacity 2s ease-in-out;
+  padding: 2rem;
+}
+
+.message.fade-out {
+  opacity: 0;
+}
+
+#scrolling-text {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.text-content {
+  font-size: 2.2rem; /* Smaller text size */
+  line-height: 1.6;
+  white-space: pre-line;
+  animation: scroll-up 600s linear infinite;
+  animation-delay: 2s;
+  padding: 2rem;
+}
+
+@keyframes scroll-up {
+  0% {
+    transform: translateY(100vh);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+/* Ensure text is crisp */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .message {
+    font-size: 1.5rem;
+  }
+
+  .text-content {
+    font-size: 1.8rem;
+  }
+}
